@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "shopping",
 ]
 
+
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
@@ -58,6 +59,18 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
+}
+
+# Simple JWT settings
+from datetime import timedelta
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "SLIDING_TOKEN_LIFETIME": timedelta(hours=2),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=30),
 }
 
 MIDDLEWARE = [
@@ -92,16 +105,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Use SQLite for local development to avoid psycopg2 DLL issues
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME", "appdb"),
-        "USER": os.getenv("DB_USER", "mealmindd_user"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "Saffiyah1"),
-        "HOST": os.getenv("DB_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
